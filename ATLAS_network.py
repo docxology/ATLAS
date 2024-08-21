@@ -10,7 +10,7 @@ class ATLASNetwork:
         """
         Initializes the ATLAS Network as a directed graph.
         """
-        self.graph = nx.DiGraph()
+        self.graph = nx.MultiDiGraph()
         logging.info("Initialized ATLAS Network")
 
     def add_entity(self, entity_id: str, attributes: dict = None, patterns: list = None) -> bool:
