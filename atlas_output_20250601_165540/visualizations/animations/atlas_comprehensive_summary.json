@@ -1,0 +1,38 @@
+{
+  "created_animations": [
+    {
+      "name": "network_growth",
+      "file_path": "atlas_output_20250601_165540/visualizations/animations/atlas_comprehensive_network_growth.gif",
+      "description": "Network growth over time",
+      "size_mb": 0.17
+    },
+    {
+      "name": "pattern_discovery",
+      "file_path": "atlas_output_20250601_165540/visualizations/animations/atlas_comprehensive_pattern_discovery.gif",
+      "description": "Pattern discovery process",
+      "size_mb": 0.13
+    },
+    {
+      "name": "query_execution",
+      "file_path": "atlas_output_20250601_165540/visualizations/animations/atlas_comprehensive_query_execution.gif",
+      "description": "Query execution visualization",
+      "size_mb": 0.03
+    },
+    {
+      "name": "system_metrics",
+      "file_path": "atlas_output_20250601_165540/visualizations/animations/atlas_comprehensive_system_metrics.gif",
+      "description": "System metrics evolution",
+      "size_mb": 1.35
+    },
+    {
+      "name": "interactive_timeline",
+      "file_path": "atlas_output_20250601_165540/visualizations/animations/atlas_comprehensive_interactive_timeline.png",
+      "description": "Interactive timeline visualization",
+      "size_mb": 0.5,
+      "type": "static"
+    }
+  ],
+  "failed_animations": [],
+  "total_size_mb": 2.179459571838379,
+  "creation_time": "2025-06-01T16:56:25.719105"
+}

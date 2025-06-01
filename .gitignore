@@ -160,16 +160,3 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
-
-# ATLAS Output Directories
-atlas_output_*/
-atlas_system_report.json
-
-# Generated visualization files
-demo_*.png
-demo_*.json
-*.graphml
-
-# Legacy output files (in case they exist)
-atlas_report_*.json
-atlas_logs_*/

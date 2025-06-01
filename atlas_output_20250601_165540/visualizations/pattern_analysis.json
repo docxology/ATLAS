@@ -1,0 +1,47 @@
+{
+  "total_patterns": 3,
+  "total_usage": 0,
+  "average_usage": 0.0,
+  "most_used_patterns": [
+    [
+      "cognitive_bias",
+      0
+    ],
+    [
+      "confirmation_bias",
+      0
+    ],
+    [
+      "information_security",
+      0
+    ]
+  ],
+  "least_used_patterns": [
+    [
+      "cognitive_bias",
+      0
+    ],
+    [
+      "confirmation_bias",
+      0
+    ],
+    [
+      "information_security",
+      0
+    ]
+  ],
+  "orphaned_patterns": [
+    "cognitive_bias",
+    "information_security"
+  ],
+  "root_patterns": [
+    "cognitive_bias",
+    "information_security"
+  ],
+  "leaf_patterns": [
+    "cognitive_bias",
+    "confirmation_bias",
+    "information_security"
+  ],
+  "hierarchy_depth": 1
+}

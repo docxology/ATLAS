@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-06-01T16:56:49.247970",
+  "system_metrics": {
+    "entities_created": 3,
+    "patterns_created": 3,
+    "queries_executed": 2,
+    "relationships_added": 5,
+    "total_nodes": 8,
+    "total_edges": 4,
+    "graph_density": 0.07142857142857142,
+    "connected_components": 4
+  },
+  "network_analysis": {
+    "error": "(PowerIterationFailedConvergence(...), 'power iteration failed to converge within 100 iterations')",
+    "visualizations_generated": [
+      "atlas_output_20250601_165540/visualizations/demo_network_centrality.png",
+      "atlas_output_20250601_165540/visualizations/demo_network_communities.png",
+      "atlas_output_20250601_165540/visualizations/demo_network_evolution.png"
+    ]
+  },
+  "visualization_files": [
+    "demo_topology.png",
+    "demo_distribution.png",
+    "demo_hierarchy.png",
+    "demo_overview.png",
+    "demo_interactive.html",
+    "demo_quality.png",
+    "demo_effectiveness.png",
+    "demo_qkit.png",
+    "demo_performance.png",
+    "demo_communities.png",
+    "demo_evolution.png",
+    "demo_centrality.png",
+    "demo_timeline.png"
+  ],
+  "animation_files": [
+    "demo_growth_animation.gif",
+    "demo_pattern_discovery.gif",
+    "demo_query_execution.gif",
+    "demo_system_metrics.gif"
+  ]
+}

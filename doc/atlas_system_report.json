@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-05-31T14:50:16.284047",
+  "system_info": {
+    "python_version": "3.10.12",
+    "platform": "linux",
+    "atlas_installed": true
+  },
+  "test_results": {
+    "basic_test": "PASSED",
+    "pytest_suite": "FAILED",
+    "total_tests": 0,
+    "passed_tests": 0,
+    "failed_tests": 0,
+    "test_time": 0.5617382526397705
+  },
+  "examples": {
+    "total_discovered": 2,
+    "runnable_count": 2,
+    "failed_count": 0,
+    "categories": {
+      "core_examples": 1,
+      "tutorial_examples": 0,
+      "advanced_examples": 0,
+      "demo_examples": 1
+    }
+  }
+}
