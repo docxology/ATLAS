@@ -4,7 +4,7 @@ Welcome to the comprehensive documentation for ATLAS (Adaptive Thinking and Lear
 
 ## Quick Start
 
-- [Installation Guide](getting-started/installation.md) - Get ATLAS up and running
+- [Installation Guide](INSTALL.md) - Get ATLAS up and running
 - [Quick Start Tutorial](getting-started/quickstart.md) - Your first ATLAS system in 5 minutes
 - [Basic Concepts](getting-started/concepts.md) - Understanding ATLAS fundamentals
 
@@ -13,31 +13,31 @@ Welcome to the comprehensive documentation for ATLAS (Adaptive Thinking and Lear
 ### User Guides
 - [User Guide](user-guide/index.md) - Complete guide for using ATLAS
 - [API Reference](api/index.md) - Comprehensive API documentation
-- [Configuration](configuration/index.md) - System configuration options
+- [Entity Management](user-guide/entities.md) - Working with entities and attributes
 
 ### Developer Resources
-- [Architecture](architecture/index.md) - System architecture and design
-- [Developer Guide](developer-guide/index.md) - Contributing to ATLAS
-- [Examples](examples/index.md) - Practical examples and use cases
-
-### Advanced Topics
-- [Pattern Languages](advanced/pattern-languages.md) - Deep dive into pattern systems
-- [Cognitive Security](advanced/cognitive-security.md) - Information security frameworks
-- [Visualization](advanced/visualization.md) - Data visualization capabilities
-- [Performance](advanced/performance.md) - Optimization and scaling
-
-## Reference
-
+- [Architecture Overview](architecture/index.md) - System architecture and design
+- [Contributing Guide](community/contributing.md) - How to contribute to ATLAS
+- [Examples](../examples/README.md) - Practical examples and use cases
 - [Technical Specification](specification.md) - Complete technical specification
+
+### Machine-Readable Specifications
+- [Configuration Schema](schemas/atlas-config.schema.json) - ATLAS configuration validation and IDE support
+- [Build Schema](schemas/atlas-build.schema.json) - Build, test, and CI/CD automation configuration
+- [Deployment Schema](schemas/atlas-deployment.schema.json) - Container deployment and orchestration
+- [OpenAPI Specification](schemas/atlas-api.openapi.yaml) - REST API design and client generation
+- [System Metadata](metadata/system-metadata.json) - Complete system capabilities and architecture
+- [Configuration Templates](templates/atlas-config.yaml) - Production-ready configuration examples
+- [Installation Reference](installation-reference.md) - Canonical installation commands
+
+### Reference Materials
 - [Glossary](reference/glossary.md) - Terms and definitions
 - [FAQ](reference/faq.md) - Frequently asked questions
-- [Troubleshooting](reference/troubleshooting.md) - Common issues and solutions
+- [System Assessment](ATLAS_COMPREHENSIVE_ASSESSMENT.md) - Current system status
 
 ## Community
 
 - [Contributing](community/contributing.md) - How to contribute to ATLAS
-- [Code of Conduct](community/code-of-conduct.md) - Community guidelines
-- [Support](community/support.md) - Getting help and support
 
 ## About
 
@@ -62,11 +62,18 @@ ATLAS has evolved since the late 1990s from the original Atlas of Risk, integrat
 | Topic | Description | Getting Started |
 |-------|-------------|-----------------|
 | **Entities** | Fundamental objects in ATLAS | [Entity Guide](user-guide/entities.md) |
-| **Patterns** | Abstract templates and classifications | [Pattern Guide](user-guide/patterns.md) |
-| **iQueries** | Structured information requests | [Query Guide](user-guide/queries.md) |
-| **Interfaces** | System interoperability layers | [Interface Guide](user-guide/interfaces.md) |
-| **Visualization** | Data visualization and analysis | [Visualization Guide](user-guide/visualization.md) |
+| **Patterns** | Abstract templates and classifications | [Pattern Guide](api/index.md#pattern) |
+| **iQueries** | Structured information requests | [Query Guide](api/index.md#iquery) |
+| **Interfaces** | System interoperability layers | [Interface Guide](api/index.md#promptinterface) |
+| **Visualization** | Data visualization and analysis | [Visualization Guide](api/index.md#visualization-api) |
+
+## Legacy Documentation
+
+Historical documents and previous system iterations:
+- [Legacy System Overview](legacy/ATLAS_SYSTEM_OVERVIEW.md)
+- [Legacy Network Implementation](legacy/ATLAS_network.py)
+- [Legacy Utils](legacy/ATLAS_utils.py)
 
 ---
 
-*For technical questions, please see our [FAQ](reference/faq.md) or [contact support](community/support.md).* 
+*For technical questions, please see our [FAQ](reference/faq.md) or [Contributing Guide](community/contributing.md).* 

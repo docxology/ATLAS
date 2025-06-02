@@ -73,14 +73,34 @@ class NetworkVisualizer:
                 'paths': {}
             }
             
-            # Calculate centrality measures (for smaller graphs)
+            # Calculate centrality measures (for smaller graphs with error handling)
             if graph.number_of_nodes() <= 500:
-                analysis['centrality_measures'] = {
+                centrality_measures = {
                     'degree_centrality': nx.degree_centrality(graph),
                     'betweenness_centrality': nx.betweenness_centrality(graph),
-                    'closeness_centrality': nx.closeness_centrality(graph),
-                    'eigenvector_centrality': nx.eigenvector_centrality(graph, max_iter=100)
+                    'closeness_centrality': nx.closeness_centrality(graph)
                 }
+                
+                # Try eigenvector centrality with multiple strategies
+                try:
+                    centrality_measures['eigenvector_centrality'] = nx.eigenvector_centrality(
+                        graph, max_iter=1000, tol=1e-06
+                    )
+                except nx.PowerIterationFailedConvergence:
+                    try:
+                        # Fallback with more iterations and different tolerance
+                        centrality_measures['eigenvector_centrality'] = nx.eigenvector_centrality(
+                            graph, max_iter=5000, tol=1e-04
+                        )
+                    except nx.PowerIterationFailedConvergence:
+                        # Final fallback: use PageRank as approximation
+                        logger.warning("Eigenvector centrality failed, using PageRank approximation")
+                        centrality_measures['eigenvector_centrality'] = nx.pagerank(graph, max_iter=1000)
+                except Exception as e:
+                    logger.warning(f"Eigenvector centrality calculation failed: {e}")
+                    centrality_measures['eigenvector_centrality'] = {}
+                
+                analysis['centrality_measures'] = centrality_measures
             
             # Clustering analysis
             if not graph.is_directed():
@@ -161,7 +181,11 @@ class NetworkVisualizer:
             elif centrality_type == 'closeness':
                 centrality = nx.closeness_centrality(graph)
             elif centrality_type == 'eigenvector':
-                centrality = nx.eigenvector_centrality(graph, max_iter=100)
+                try:
+                    centrality = nx.eigenvector_centrality(graph, max_iter=1000, tol=1e-06)
+                except nx.PowerIterationFailedConvergence:
+                    logger.warning("Eigenvector centrality failed to converge, using PageRank")
+                    centrality = nx.pagerank(graph, max_iter=1000)
             else:
                 raise ValueError(f"Unknown centrality type: {centrality_type}")
             

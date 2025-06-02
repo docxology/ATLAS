@@ -1,0 +1,210 @@
+# ATLAS Configuration Template
+# Complete configuration file template for ATLAS Knowledge Management System
+# Copy this file and customize for your specific deployment
+
+# Core ATLAS system configuration
+atlas:
+  # Enable automatic pattern assignment based on entity characteristics
+  auto_pattern_inference: true
+  
+  # Allow entities to change types during operation
+  enable_dynamic_typing: true
+  
+  # Maximum depth for graph traversal and expansion operations
+  # Higher values provide more comprehensive results but require more resources
+  max_expansion_depth: 10
+  
+  # Calculate and track quality scores for entities and patterns
+  enable_quality_metrics: true
+  
+  # Logging level for system operations
+  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_level: "INFO"
+
+# Database configuration settings
+database:
+  # Database backend to use for persistence
+  # Options: memory (in-memory), sqlite (file-based), postgresql, neo4j
+  engine: "memory"
+  
+  # Database connection settings (for file-based and network databases)
+  # Uncomment and configure as needed:
+  # path: "./atlas.db"              # For SQLite
+  # host: "localhost"               # For network databases
+  # port: 5432                      # For PostgreSQL (5432) or Neo4j (7687)
+  # username: "atlas_user"          # Database username
+  # password: "secure_password"     # Database password  
+  # database_name: "atlas_db"       # Database name
+
+# Visualization system configuration
+visualization:
+  # Default visualization backend
+  # Options: matplotlib, plotly, graphviz
+  default_backend: "matplotlib"
+  
+  # Default figure size [width, height] in inches
+  figure_size: [12, 8]
+  
+  # Resolution for saved figures (dots per inch)
+  dpi: 100
+  
+  # Color scheme for visualizations
+  # Options: default, colorblind, high_contrast, dark, light
+  color_scheme: "default"
+  
+  # Animation settings
+  animation:
+    # Frames per second for animations
+    fps: 10
+    
+    # Animation duration in seconds
+    duration: 5.0
+
+# Performance optimization settings
+performance:
+  # Maximum number of items to cache
+  cache_size: 1000
+  
+  # Batch size for bulk operations
+  batch_size: 100
+  
+  # Enable parallel processing for suitable operations
+  parallel_processing: false
+  
+  # Maximum number of worker threads (when parallel processing is enabled)
+  max_workers: 4
+
+# Data export settings
+export:
+  # Default export format
+  # Options: json, graphml, yaml, csv
+  default_format: "json"
+  
+  # Enable compression for exported files
+  compression: false
+  
+  # Include metadata in exports
+  include_metadata: true
+
+# Environment-specific settings
+environment:
+  # Directory for data files
+  data_dir: "./atlas_data"
+  
+  # Directory for temporary files
+  temp_dir: "./atlas_temp"
+  
+  # Directory for log files
+  log_dir: "./atlas_logs"
+  
+  # Maximum file size (e.g., '100MB', '1GB')
+  max_file_size: "100MB"
+
+# Quality assurance settings
+quality:
+  # Minimum confidence threshold for automated operations
+  min_confidence: 0.7
+  
+  # Enable anomaly detection
+  enable_anomaly_detection: true
+  
+  # Threshold for pattern similarity clustering
+  similarity_threshold: 0.8
+
+# Security settings (for future API implementations)
+security:
+  # Enable authentication
+  enable_auth: false
+  
+  # API key settings
+  # api_key: "your-secure-api-key"
+  
+  # Enable request rate limiting
+  enable_rate_limiting: false
+  
+  # Maximum requests per minute
+  # rate_limit: 1000
+
+# Integration settings
+integrations:
+  # Enable HTTP prompt interfaces
+  enable_http_interfaces: false
+  
+  # HTTP server settings
+  # http:
+  #   host: "localhost"
+  #   port: 8080
+  #   cors_enabled: true
+  
+  # External system connections
+  # external_apis:
+  #   - name: "research_db"
+  #     url: "https://api.research.org"
+  #     auth_type: "bearer"
+  #     token: "your-token"
+
+# Development and debugging settings
+development:
+  # Enable debug mode
+  debug: false
+  
+  # Enable detailed error reporting
+  verbose_errors: false
+  
+  # Enable performance profiling
+  enable_profiling: false
+  
+  # Save intermediate processing steps
+  save_intermediate_steps: false
+
+# ===============================
+# Example Configurations
+# ===============================
+
+# Example 1: High-Performance Production Setup
+# atlas:
+#   auto_pattern_inference: true
+#   enable_dynamic_typing: true
+#   max_expansion_depth: 5
+#   enable_quality_metrics: true
+#   log_level: "WARNING"
+# database:
+#   engine: "postgresql"
+#   host: "db.example.com"
+#   port: 5432
+#   username: "atlas_prod"
+#   database_name: "atlas_production"
+# performance:
+#   cache_size: 10000
+#   batch_size: 500
+#   parallel_processing: true
+#   max_workers: 8
+
+# Example 2: Research/Development Setup
+# atlas:
+#   auto_pattern_inference: true
+#   enable_dynamic_typing: true
+#   max_expansion_depth: 15
+#   enable_quality_metrics: true
+#   log_level: "DEBUG"
+# database:
+#   engine: "sqlite"
+#   path: "./research_atlas.db"
+# development:
+#   debug: true
+#   verbose_errors: true
+#   enable_profiling: true
+#   save_intermediate_steps: true
+
+# Example 3: Minimal Setup for Testing
+# atlas:
+#   auto_pattern_inference: false
+#   enable_dynamic_typing: false
+#   max_expansion_depth: 3
+#   enable_quality_metrics: false
+#   log_level: "ERROR"
+# database:
+#   engine: "memory"
+# performance:
+#   cache_size: 100
+#   parallel_processing: false 

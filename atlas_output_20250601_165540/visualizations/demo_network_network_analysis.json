@@ -1,8 +1,0 @@
-{
-  "error": "(PowerIterationFailedConvergence(...), 'power iteration failed to converge within 100 iterations')",
-  "visualizations_generated": [
-    "atlas_output_20250601_165540/visualizations/demo_network_centrality.png",
-    "atlas_output_20250601_165540/visualizations/demo_network_communities.png",
-    "atlas_output_20250601_165540/visualizations/demo_network_evolution.png"
-  ]
-}

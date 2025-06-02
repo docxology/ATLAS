@@ -1,0 +1,540 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://atlas-knowledge.org/schemas/deployment.json",
+  "title": "ATLAS Deployment Configuration Schema",
+  "description": "JSON schema for ATLAS deployment, containerization, and orchestration",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "object",
+      "description": "Environment configuration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": ["development", "testing", "staging", "production"],
+          "description": "Deployment environment name"
+        },
+        "region": {
+          "type": "string",
+          "description": "Cloud region or data center location"
+        },
+        "namespace": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Kubernetes namespace or logical grouping"
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "application": {
+      "type": "object",
+      "description": "Application deployment configuration",
+      "properties": {
+        "image": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string",
+              "description": "Container image repository"
+            },
+            "tag": {
+              "type": "string",
+              "description": "Image tag or version"
+            },
+            "pull_policy": {
+              "type": "string",
+              "enum": ["Always", "IfNotPresent", "Never"],
+              "default": "IfNotPresent"
+            }
+          },
+          "required": ["repository", "tag"]
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "requests": {
+              "type": "object",
+              "properties": {
+                "cpu": {
+                  "type": "string",
+                  "pattern": "^\\d+m?$",
+                  "default": "100m"
+                },
+                "memory": {
+                  "type": "string",
+                  "pattern": "^\\d+(Mi|Gi)$",
+                  "default": "512Mi"
+                }
+              }
+            },
+            "limits": {
+              "type": "object",
+              "properties": {
+                "cpu": {
+                  "type": "string",
+                  "pattern": "^\\d+m?$",
+                  "default": "1000m"
+                },
+                "memory": {
+                  "type": "string",
+                  "pattern": "^\\d+(Mi|Gi)$",
+                  "default": "2Gi"
+                }
+              }
+            }
+          }
+        },
+        "replicas": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 1
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "port": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 65535
+              },
+              "protocol": {
+                "type": "string",
+                "enum": ["TCP", "UDP"],
+                "default": "TCP"
+              }
+            },
+            "required": ["name", "port"]
+          },
+          "default": [
+            {"name": "http", "port": 8080}
+          ]
+        }
+      },
+      "required": ["image"],
+      "additionalProperties": false
+    },
+    "database": {
+      "type": "object",
+      "description": "Database deployment configuration",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "enum": ["sqlite", "postgresql", "neo4j", "external"],
+          "description": "Database engine to deploy"
+        },
+        "embedded": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to deploy database in same container"
+        },
+        "external": {
+          "type": "object",
+          "description": "External database connection configuration",
+          "properties": {
+            "host": {
+              "type": "string"
+            },
+            "port": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535
+            },
+            "database": {
+              "type": "string"
+            },
+            "ssl_mode": {
+              "type": "string",
+              "enum": ["disable", "require", "verify-ca", "verify-full"],
+              "default": "require"
+            }
+          },
+          "required": ["host", "port", "database"]
+        },
+        "storage": {
+          "type": "object",
+          "properties": {
+            "size": {
+              "type": "string",
+              "pattern": "^\\d+(Mi|Gi|Ti)$",
+              "default": "10Gi"
+            },
+            "storage_class": {
+              "type": "string",
+              "description": "Kubernetes storage class"
+            },
+            "backup": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "schedule": {
+                  "type": "string",
+                  "pattern": "^(@(annually|yearly|monthly|weekly|daily|hourly)|\\d+\\s+\\d+\\s+\\d+\\s+\\d+\\s+\\d+)$",
+                  "default": "0 2 * * *"
+                },
+                "retention": {
+                  "type": "string",
+                  "pattern": "^\\d+[dwmy]$",
+                  "default": "7d"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["engine"],
+      "additionalProperties": false
+    },
+    "networking": {
+      "type": "object",
+      "description": "Network configuration",
+      "properties": {
+        "service": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"],
+              "default": "ClusterIP"
+            },
+            "annotations": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "ingress": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "host": {
+              "type": "string",
+              "format": "hostname"
+            },
+            "path": {
+              "type": "string",
+              "default": "/"
+            },
+            "tls": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "secret_name": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "security": {
+      "type": "object",
+      "description": "Security configuration",
+      "properties": {
+        "rbac": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "service_account": {
+              "type": "string"
+            }
+          }
+        },
+        "pod_security": {
+          "type": "object",
+          "properties": {
+            "run_as_non_root": {
+              "type": "boolean",
+              "default": true
+            },
+            "run_as_user": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1000
+            },
+            "fs_group": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1000
+            },
+            "read_only_root_filesystem": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "secrets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["Opaque", "kubernetes.io/tls", "kubernetes.io/basic-auth"]
+              },
+              "mount_path": {
+                "type": "string"
+              }
+            },
+            "required": ["name", "type"]
+          }
+        },
+        "network_policies": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "ingress": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  },
+                  "ports": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "protocol": {
+                          "type": "string",
+                          "enum": ["TCP", "UDP"]
+                        },
+                        "port": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "monitoring": {
+      "type": "object",
+      "description": "Monitoring and observability configuration",
+      "properties": {
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "port": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535,
+              "default": 9090
+            },
+            "path": {
+              "type": "string",
+              "default": "/metrics"
+            }
+          }
+        },
+        "health_checks": {
+          "type": "object",
+          "properties": {
+            "liveness": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "default": "/health"
+                },
+                "port": {
+                  "type": "integer"
+                },
+                "initial_delay": {
+                  "type": "integer",
+                  "default": 30
+                },
+                "period": {
+                  "type": "integer",
+                  "default": 10
+                }
+              }
+            },
+            "readiness": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "default": "/ready"
+                },
+                "port": {
+                  "type": "integer"
+                },
+                "initial_delay": {
+                  "type": "integer",
+                  "default": 5
+                },
+                "period": {
+                  "type": "integer",
+                  "default": 5
+                }
+              }
+            }
+          }
+        },
+        "logging": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+              "default": "INFO"
+            },
+            "format": {
+              "type": "string",
+              "enum": ["json", "structured", "plain"],
+              "default": "json"
+            },
+            "output": {
+              "type": "string",
+              "enum": ["stdout", "stderr", "file"],
+              "default": "stdout"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "scaling": {
+      "type": "object",
+      "description": "Auto-scaling configuration",
+      "properties": {
+        "horizontal": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "min_replicas": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "max_replicas": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 10
+            },
+            "target_cpu": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 80
+            },
+            "target_memory": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 80
+            }
+          }
+        },
+        "vertical": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "update_mode": {
+              "type": "string",
+              "enum": ["Off", "Initial", "Recreation", "Auto"],
+              "default": "Auto"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "configuration": {
+      "type": "object",
+      "description": "Application configuration overrides",
+      "properties": {
+        "config_maps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "mount_path": {
+                "type": "string"
+              },
+              "data": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": ["name", "mount_path"]
+          }
+        },
+        "environment_variables": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "atlas_config": {
+          "type": "object",
+          "description": "ATLAS-specific configuration overrides",
+          "$ref": "atlas-config.schema.json"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["environment", "application"],
+  "additionalProperties": false
+} 

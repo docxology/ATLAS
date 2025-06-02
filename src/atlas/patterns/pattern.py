@@ -10,7 +10,7 @@ from typing import Dict, List, Any, Optional, Set
 from datetime import datetime
 import uuid
 
-from atlas.entities.entity import Entity, EntityMetadata
+from ..entities.entity import Entity, EntityMetadata
 
 logger = logging.getLogger(__name__)
 

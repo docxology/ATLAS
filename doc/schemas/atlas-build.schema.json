@@ -1,0 +1,435 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://atlas-knowledge.org/schemas/build.json",
+  "title": "ATLAS Build Configuration Schema",
+  "description": "JSON schema for ATLAS build, test, and deployment automation",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "object",
+      "description": "Project metadata and configuration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": "atlas-knowledge"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9]+)?$"
+        },
+        "python_requires": {
+          "type": "string",
+          "default": ">=3.8"
+        },
+        "build_backend": {
+          "type": "string",
+          "enum": ["setuptools.build_meta", "poetry.core.masonry.api", "flit_core.buildapi"],
+          "default": "setuptools.build_meta"
+        }
+      },
+      "required": ["name", "version"],
+      "additionalProperties": false
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Dependency management configuration",
+      "properties": {
+        "core": {
+          "type": "array",
+          "description": "Core runtime dependencies",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+([><=!]+[0-9.,a-zA-Z]*)?$"
+          },
+          "default": [
+            "networkx>=2.6.0,<4.0",
+            "numpy>=1.20.0,<2.0",
+            "python-dateutil>=2.8.0,<3.0"
+          ]
+        },
+        "visualization": {
+          "type": "array",
+          "description": "Optional visualization dependencies",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "matplotlib>=3.3.0,<4.0",
+            "seaborn>=0.11.0,<1.0",
+            "pandas>=1.2.0,<3.0",
+            "plotly>=5.0.0,<6.0"
+          ]
+        },
+        "development": {
+          "type": "array",
+          "description": "Development and testing dependencies",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "pytest>=6.0.0,<8.0",
+            "pytest-cov>=2.10.0,<5.0",
+            "black>=20.8b1,<25.0",
+            "flake8>=3.8.0,<7.0",
+            "mypy>=0.812,<2.0"
+          ]
+        },
+        "documentation": {
+          "type": "array",
+          "description": "Documentation generation dependencies",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "sphinx>=4.0.0,<6.0",
+            "sphinx-rtd-theme>=1.0.0,<2.0",
+            "myst-parser>=0.17.0,<1.0"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "build": {
+      "type": "object",
+      "description": "Build process configuration",
+      "properties": {
+        "source_dir": {
+          "type": "string",
+          "default": "src"
+        },
+        "package_dir": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+              "type": "string"
+            }
+          },
+          "default": {"": "src"}
+        },
+        "include_package_data": {
+          "type": "boolean",
+          "default": true
+        },
+        "exclude_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["tests", "docs", "*.pyc", "__pycache__"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "testing": {
+      "type": "object",
+      "description": "Testing framework configuration",
+      "properties": {
+        "framework": {
+          "type": "string",
+          "enum": ["pytest", "unittest", "nose2"],
+          "default": "pytest"
+        },
+        "test_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["tests"]
+        },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["atlas"]
+            },
+            "threshold": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "default": 80
+            },
+            "report_formats": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["term", "html", "xml", "json"]
+              },
+              "default": ["term", "html"]
+            }
+          }
+        },
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": ["name", "description"]
+          },
+          "default": [
+            {"name": "slow", "description": "marks tests as slow"},
+            {"name": "integration", "description": "marks tests as integration tests"},
+            {"name": "unit", "description": "marks tests as unit tests"}
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "quality": {
+      "type": "object",
+      "description": "Code quality tools configuration",
+      "properties": {
+        "formatters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tool": {
+                "type": "string",
+                "enum": ["black", "autopep8", "yapf"]
+              },
+              "config": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "required": ["tool"]
+          },
+          "default": [
+            {
+              "tool": "black",
+              "config": {
+                "line-length": 88,
+                "target-version": ["py38", "py39", "py310", "py311"]
+              }
+            }
+          ]
+        },
+        "linters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tool": {
+                "type": "string",
+                "enum": ["flake8", "pylint", "ruff"]
+              },
+              "config": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "required": ["tool"]
+          },
+          "default": [
+            {
+              "tool": "flake8",
+              "config": {
+                "max-line-length": 88,
+                "extend-ignore": ["E203", "W503"]
+              }
+            }
+          ]
+        },
+        "type_checkers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tool": {
+                "type": "string",
+                "enum": ["mypy", "pyright"]
+              },
+              "config": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "required": ["tool"]
+          },
+          "default": [
+            {
+              "tool": "mypy",
+              "config": {
+                "python_version": "3.8",
+                "warn_return_any": true,
+                "warn_unused_configs": true
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "documentation": {
+      "type": "object",
+      "description": "Documentation generation configuration",
+      "properties": {
+        "tool": {
+          "type": "string",
+          "enum": ["sphinx", "mkdocs", "pdoc"],
+          "default": "sphinx"
+        },
+        "source_dir": {
+          "type": "string",
+          "default": "doc/source"
+        },
+        "build_dir": {
+          "type": "string",
+          "default": "doc/build"
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["html", "pdf", "epub", "json"]
+          },
+          "default": ["html"]
+        },
+        "api_docs": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "source_modules": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["atlas"]
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "distribution": {
+      "type": "object",
+      "description": "Package distribution configuration",
+      "properties": {
+        "formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["wheel", "sdist", "egg"]
+          },
+          "default": ["wheel", "sdist"]
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "upload_tool": {
+                "type": "string",
+                "enum": ["twine", "poetry"],
+                "default": "twine"
+              }
+            },
+            "required": ["name", "url"]
+          },
+          "default": [
+            {
+              "name": "pypi",
+              "url": "https://upload.pypi.org/legacy/",
+              "upload_tool": "twine"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "ci_cd": {
+      "type": "object",
+      "description": "CI/CD pipeline configuration",
+      "properties": {
+        "platforms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["github-actions", "gitlab-ci", "jenkins", "travis-ci", "circle-ci"]
+          },
+          "default": ["github-actions"]
+        },
+        "python_versions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^3\\.(8|9|10|11|12)$"
+          },
+          "default": ["3.8", "3.9", "3.10", "3.11"]
+        },
+        "operating_systems": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["ubuntu-latest", "windows-latest", "macos-latest"]
+          },
+          "default": ["ubuntu-latest"]
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "commands": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dependencies": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": ["name", "commands"]
+          },
+          "default": [
+            {
+              "name": "install",
+              "commands": ["pip install -e .[dev]"]
+            },
+            {
+              "name": "test",
+              "commands": ["pytest tests/ --cov=atlas"],
+              "dependencies": ["install"]
+            },
+            {
+              "name": "quality",
+              "commands": ["black --check src/", "flake8 src/", "mypy src/atlas/"],
+              "dependencies": ["install"]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["project"],
+  "additionalProperties": false
+} 

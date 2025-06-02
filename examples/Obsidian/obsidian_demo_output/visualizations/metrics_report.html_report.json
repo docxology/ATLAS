@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-06-02T08:54:58.712729",
+  "system_metrics": {
+    "entities_created": 11,
+    "patterns_created": 39,
+    "queries_executed": 0,
+    "relationships_added": 19,
+    "total_nodes": 51,
+    "total_edges": 10,
+    "graph_density": 0.00392156862745098,
+    "connected_components": 42
+  },
+  "charts_generated": [
+    "obsidian_demo_output/visualizations/metrics_report.html_overview.png",
+    "obsidian_demo_output/visualizations/metrics_report.html_performance.png",
+    "obsidian_demo_output/visualizations/metrics_report.html_quality.png"
+  ],
+  "summary": {
+    "total_components": 50,
+    "network_density": 0.00392156862745098,
+    "connectivity_score": 0.5,
+    "activity_level": 0.19
+  }
+}

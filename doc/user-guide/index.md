@@ -6,7 +6,7 @@ Welcome to the comprehensive ATLAS User Guide. This guide provides detailed inst
 
 If you're new to ATLAS, start here:
 
-- [Installation](../getting-started/installation.md) - Install ATLAS on your system
+- [Installation](../INSTALL.md) - Install ATLAS on your system
 - [Quick Start Tutorial](../getting-started/quickstart.md) - Your first ATLAS system in 5 minutes
 - [Basic Concepts](../getting-started/concepts.md) - Understanding ATLAS fundamentals
 
@@ -20,200 +20,136 @@ Learn how to work with each major component of ATLAS:
 - Entity relationships and linking
 - Best practices for entity design
 
-### [Patterns](patterns.md) 
-- Understanding pattern hierarchies
-- Creating effective QKits
-- Pattern inheritance and composition
-- Managing pattern evolution
+### [Patterns](patterns.md)
+- Understanding pattern hierarchies and inheritance
+- Creating effective QKits (Question Kits)
+- Pattern similarity analysis and clustering
+- Best practices for pattern design
 
 ### [Queries](queries.md)
-- Crafting effective iQueries
-- Understanding query execution
-- Working with query results
-- Advanced query techniques
+- Crafting effective iQueries and execution
+- Understanding query priority and status tracking
+- Working with query results and validation
+- Advanced query techniques and optimization
 
-### [Interfaces](interfaces.md)
-- Setting up prompt interfaces
+### Interfaces
+- Setting up prompt interfaces (see [API Reference](../api/index.md#promptinterface))
 - Data transformation and validation
 - System integration patterns
-- Custom interface development
+- HTTP and custom interfaces
 
-### [Visualization](visualization.md)
-- Generating network visualizations
+### Visualization
+- Generating network visualizations (see [API Reference](../api/index.md#visualization-api))
 - Creating interactive dashboards
 - Exporting graphics and reports
-- Customizing visual appearance
+- Animation and network analysis
 
 ## Advanced Features
 
-### [Configuration](configuration.md)
-- System configuration options
-- Performance tuning
+### System Configuration
+- ATLASConfig options (see [API Reference](../api/index.md#atlasconfig))
+- Performance tuning parameters
 - Quality metrics and monitoring
-- Database and storage options
+- Environment variables
 
-### [Data Management](data-management.md)
-- Importing and exporting data
-- Data validation and quality control
-- Backup and recovery procedures
-- Schema migration and evolution
+### Architecture and Design
+- [System Architecture](../architecture/index.md) - Complete architecture overview
+- [Technical Specification](../specification.md) - Detailed technical documentation
+- Design principles and patterns
+- Extensibility and customization
 
-### [Automation](automation.md)
-- Automated pattern discovery
-- Batch processing operations
-- Scheduled query execution
-- Integration with external systems
+## Workflows and Examples
 
-## Workflows and Use Cases
+### Practical Examples
+- [Basic Test Example](../../examples/README.md#1-basic-test-basic_testpy) - Core functionality demonstration
+- [Comprehensive Demo](../../examples/README.md#2-comprehensive-demo-comprehensive_demopy) - Full system demonstration
+- Coffee production knowledge base (see Quick Start Tutorial)
+- Research and analysis workflows
 
-### [Research and Analysis](workflows/research.md)
-- Literature review and synthesis
-- Hypothesis generation and testing
-- Collaborative research projects
-- Knowledge gap analysis
-
-### [Business Intelligence](workflows/business.md)
-- Market research and competitive analysis
-- Customer relationship management
-- Product development planning
-- Risk assessment and mitigation
-
-### [Content Management](workflows/content.md)
-- Document organization and tagging
-- Content discovery and recommendation
-- Version control and provenance
-- Multi-author collaboration
-
-### [Data Integration](workflows/integration.md)
-- Connecting multiple data sources
-- Schema mapping and transformation
-- Real-time data synchronization
-- API integration patterns
-
-## Best Practices
-
-### [Design Principles](best-practices/design.md)
-- Effective pattern design
-- Entity modeling strategies
-- Query optimization techniques
-- System architecture considerations
-
-### [Quality Management](best-practices/quality.md)
-- Data quality assessment
-- Information validation procedures
-- Error handling and recovery
-- Continuous improvement processes
-
-### [Performance Optimization](best-practices/performance.md)
-- System tuning and configuration
-- Query optimization strategies
-- Memory and storage management
-- Scaling considerations
-
-### [Security and Privacy](best-practices/security.md)
-- Access control and permissions
-- Data privacy protection
-- Audit trails and compliance
-- Secure system deployment
+### Integration Patterns
+- HTTP API integration
+- Database connectivity
+- File system operations
+- Custom prompt interfaces
 
 ## Reference Materials
 
-### [Configuration Reference](reference/configuration.md)
-Complete reference for all configuration options and environment variables.
-
 ### [API Reference](../api/index.md)
-Detailed documentation of all ATLAS classes, methods, and functions.
-
-### [Error Messages](reference/errors.md)
-Common error messages and their solutions.
+Complete documentation of all ATLAS classes, methods, and functions including:
+- ATLASEngine core functionality
+- Entity and Attribute management
+- Pattern and PatternEngine operations
+- iQuery system
+- Prompt interfaces
+- Visualization tools
+- Utility functions
 
 ### [Glossary](../reference/glossary.md)
 Definitions of all ATLAS terms and concepts.
 
-## Troubleshooting
-
-### [Common Issues](troubleshooting/common-issues.md)
-- Installation problems
-- Performance issues
-- Data import/export problems
-- Visualization errors
-
-### [Debugging Guide](troubleshooting/debugging.md)
-- Diagnostic techniques
-- Log analysis
-- Performance profiling
-- Issue reporting procedures
-
 ### [FAQ](../reference/faq.md)
 Frequently asked questions and their answers.
 
-## Migration and Upgrades
+## Best Practices
 
-### [Version Migration](migration/versions.md)
-- Upgrading between ATLAS versions
-- Database schema migrations
-- Configuration file updates
-- Compatibility considerations
+### Entity Design
+- Choose meaningful entity IDs
+- Use consistent attribute naming
+- Leverage pattern assignments effectively
+- Track entity provenance and quality
 
-### [System Migration](migration/systems.md)
-- Moving ATLAS between environments
-- Data export and import procedures
-- Configuration migration
-- Testing and validation
+### Pattern Management
+- Design hierarchical pattern structures
+- Create comprehensive QKits
+- Use pattern inheritance wisely
+- Monitor pattern effectiveness
 
-## Community and Support
+### Query Optimization
+- Write specific, targeted queries
+- Use appropriate priority levels
+- Leverage query context effectively
+- Monitor query performance
 
-### [Getting Help](../community/support.md)
-- Community forums and discussion groups
-- Professional support options
-- Training and consulting services
-- Documentation contributions
+### System Performance
+- Configure appropriate expansion depth
+- Enable/disable quality metrics as needed
+- Use visualization selectively
+- Monitor memory usage
 
-### [Contributing](../community/contributing.md)
-- How to contribute to ATLAS development
-- Bug reporting and feature requests
-- Documentation improvements
-- Code contributions
+## Troubleshooting
+
+### Common Issues
+- Import errors: Check PYTHONPATH and installation
+- Visualization problems: Install optional dependencies
+- Performance issues: Adjust configuration parameters
+- Memory errors: Reduce expansion depth or dataset size
+
+### Getting Help
+- Check the [FAQ](../reference/faq.md) for common questions
+- Review the [API Reference](../api/index.md) for technical details
+- See [Contributing Guide](../community/contributing.md) for support options
 
 ## Quick Reference
 
 ### Common Tasks
 
-| Task | Quick Links |
-|------|-------------|
-| Create an entity | [Entity Creation Guide](entities.md#creating-entities) |
-| Define a pattern | [Pattern Design Guide](patterns.md#creating-patterns) |
-| Run a query | [Query Execution Guide](queries.md#executing-queries) |
-| Visualize data | [Visualization Guide](visualization.md#basic-visualizations) |
-| Import data | [Data Import Guide](data-management.md#importing-data) |
-| Configure system | [Configuration Guide](configuration.md#basic-configuration) |
+| Task | Reference |
+|------|-----------|
+| Create an entity | [Entity Creation](entities.md#entity-creation) |
+| Define a pattern | [Pattern Guide](patterns.md#creating-patterns) |
+| Run a query | [iQuery API](../api/index.md#iquery) |
+| Visualize data | [Visualization API](../api/index.md#visualization-api) |
+| Configure system | [Configuration](../api/index.md#atlasconfig) |
 
 ### Code Examples
 
-| Example | Description | Link |
-|---------|-------------|------|
-| Basic Setup | Minimal ATLAS configuration | [Basic Example](../examples/basic.md) |
-| Coffee Demo | Complete knowledge base example | [Coffee Demo](../examples/coffee-demo.md) |
-| Research Project | Academic research workflow | [Research Example](../examples/research.md) |
-| Business Analysis | Market research and analysis | [Business Example](../examples/business.md) |
-
-### Integration Guides
-
-| System Type | Integration Guide |
-|-------------|------------------|
-| Databases | [Database Integration](workflows/integration.md#databases) |
-| APIs | [API Integration](workflows/integration.md#apis) |
-| File Systems | [File Integration](workflows/integration.md#files) |
-| Spreadsheets | [Spreadsheet Integration](workflows/integration.md#spreadsheets) |
-
-## What's New
-
-Stay up to date with the latest ATLAS features and improvements:
-
-- [Release Notes](../reference/release-notes.md) - Latest version changes
-- [Roadmap](../reference/roadmap.md) - Planned future features
-- [Changelog](../reference/changelog.md) - Complete version history
+| Example | Description | Location |
+|---------|-------------|----------|
+| Basic Setup | Minimal ATLAS configuration | [Quick Start](../getting-started/quickstart.md) |
+| Coffee Demo | Complete knowledge base example | [Quick Start Tutorial](../getting-started/quickstart.md) |
+| Comprehensive Test | Full system demonstration | [Basic Test](../../examples/README.md#1-basic-test-basic_testpy) |
+| Advanced Features | Visualization and analysis | [Comprehensive Demo](../../examples/README.md#2-comprehensive-demo-comprehensive_demopy) |
 
 ---
 
-*This user guide is continuously updated. For the most current information, check the [online documentation](https://atlas-knowledge.readthedocs.io).* 
+*This user guide provides navigation to all available ATLAS documentation. For the most current technical details, always refer to the [API Reference](../api/index.md).* 

@@ -156,30 +156,78 @@ brew install python
 - Use PowerShell or Command Prompt
 - Consider using Windows Subsystem for Linux (WSL)
 
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file in your project directory:
+
+```bash
+# ATLAS Configuration
+ATLAS_LOG_LEVEL=INFO
+ATLAS_CACHE_SIZE=1000
+ATLAS_GRAPH_FORMAT=graphml
+ATLAS_DATA_DIR=./atlas_data
+ATLAS_TEMP_DIR=./atlas_temp
+```
+
+### Configuration File
+
+Create `atlas_config.yaml`:
+
+```yaml
+# ATLAS Configuration
+atlas:
+  auto_pattern_inference: true
+  enable_dynamic_typing: true
+  max_expansion_depth: 10
+  enable_quality_metrics: true
+  log_level: "INFO"
+
+# Database settings
+database:
+  engine: "sqlite"
+  path: "./atlas.db"
+
+# Visualization settings
+visualization:
+  default_backend: "matplotlib"
+  figure_size: [12, 8]
+  dpi: 100
+```
+
 ## Verification
 
-### Test Basic Functionality
+### Basic Functionality Test
+
 ```python
-from atlas.core.engine import ATLASEngine, ATLASConfig
-from atlas.entities.entity import Entity
-from atlas.patterns.pattern import Pattern
+from atlas import ATLASEngine, Entity, Pattern
 
-# Create engine
-config = ATLASConfig()
-atlas = ATLASEngine(config)
+# Create ATLAS engine
+atlas = ATLASEngine()
 
-# Create test entity
-entity = Entity(entity_id="test", attributes={"name": "Test"})
+# Create a simple entity
+entity = Entity("test_entity", attributes={"name": "Test"})
 atlas.add_entity(entity.id, entity.to_dict())
 
 # Verify
-print(f"Successfully created ATLAS with {len(atlas.entities)} entities")
+print(f"ATLAS installed successfully! Entities: {len(atlas.entities)}")
+```
+
+### Run Built-in Tests
+
+```bash
+# Run comprehensive test suite
+python -m examples.basic_test
+
+# Run with visualization tests (if viz dependencies installed)  
+python -m examples.comprehensive_demo
 ```
 
 ### Test Visualization (Optional)
 ```python
 try:
-    from atlas.visualization import GraphVisualizer
+    from atlas.visualization.graph_viz import GraphVisualizer
     print("✓ Visualization modules available")
 except ImportError:
     print("⚠ Visualization modules not available")

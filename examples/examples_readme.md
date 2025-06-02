@@ -1,3 +1,0 @@
-- Obsidian example (reading, writing, creating, and deleting Obsidian [[linked]] Markdown files with a series of ATLAS modifications, via Text input and LLM). This should extensively demonstrate the ability to do all interesting operations and analyses with Obsidian knowledge graphs..
-- Knowledge Mapping example using LLM methods and demonstrating compositionality. 
-- Cognitive Security ATLAS (cognitive patterns, purely ATLAS-specified ontology for connecting cognitive science to security methods. )

@@ -269,21 +269,67 @@ class ATLASEngine:
             logger.error(f"Query execution failed: {e}")
             return []
     
-    def _matches_query(self, data: Dict[str, Any], query_string: str) -> bool:
-        """Enhanced query matching logic."""
+    def _matches_query(self, data: Dict[str, Any], query_string: str, max_depth: int = 10) -> bool:
+        """Enhanced query matching logic with recursion protection."""
         query_lower = query_string.lower()
+        query_words = query_lower.split()
         
-        # Check in all string values
-        for key, value in data.items():
-            if isinstance(value, str) and query_lower in value.lower():
+        # Convert data to searchable text with depth limiting
+        searchable_text = ""
+        
+        def extract_text(obj: Any, depth: int = 0) -> str:
+            """Recursively extract searchable text from object with depth limiting."""
+            if depth > max_depth:
+                return ""
+            
+            if isinstance(obj, str):
+                return obj.lower() + " "
+            elif isinstance(obj, (list, tuple)):
+                if len(obj) > 100:  # Limit large collections
+                    obj = obj[:100]
+                return " ".join(extract_text(item, depth + 1) for item in obj)
+            elif isinstance(obj, dict):
+                if len(obj) > 50:  # Limit large dictionaries
+                    limited_obj = dict(list(obj.items())[:50])
+                else:
+                    limited_obj = obj
+                return " ".join(extract_text(v, depth + 1) for v in limited_obj.values())
+            elif hasattr(obj, '__dict__'):
+                # Handle objects with attributes, but limit depth
+                if depth < max_depth - 2:  # Leave some depth for nested structures
+                    return extract_text(obj.__dict__, depth + 1)
+                else:
+                    return str(obj).lower() + " "
+            else:
+                return str(obj).lower() + " "
+        
+        try:
+            # Extract all text from data
+            searchable_text = extract_text(data)
+            
+            # Check if all query words are present
+            if all(word in searchable_text for word in query_words):
                 return True
-            elif isinstance(value, (list, dict)):
-                if query_lower in str(value).lower():
+                
+            # Check for exact phrase match
+            if query_lower in searchable_text:
+                return True
+                
+            # Check individual keys for exact matches
+            for key in data.keys():
+                if query_lower == key.lower():
                     return True
-            elif key.lower() == query_lower:  # Exact key match
-                return True
-        
-        return False
+            
+            return False
+            
+        except RecursionError:
+            logger.warning(f"Recursion detected in query matching for query: {query_string}")
+            # Fallback to simple string matching
+            data_str = str(data).lower()
+            return any(word in data_str for word in query_words)
+        except Exception as e:
+            logger.error(f"Error in query matching: {e}")
+            return False
     
     def _calculate_relevance(self, data: Dict[str, Any], query_string: str) -> float:
         """Calculate relevance score for search results."""
@@ -348,6 +394,25 @@ class ATLASEngine:
                 return '\n'.join(nx.generate_graphml(self.graph))
             elif format == 'gexf':
                 return '\n'.join(nx.generate_gexf(self.graph))
+            elif format == 'json':
+                # Use node_link_data for JSON format with proper serialization
+                import json
+                from datetime import datetime, date
+                
+                class GraphJSONEncoder(json.JSONEncoder):
+                    def default(self, obj: Any) -> Any:  # type: ignore
+                        if isinstance(obj, (datetime, date)):
+                            return obj.isoformat()
+                        if isinstance(obj, set):
+                            return list(obj)
+                        return super().default(obj)
+                
+                # Suppress FutureWarning about edges parameter
+                import warnings
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore", FutureWarning)
+                    graph_data = nx.node_link_data(self.graph)
+                return json.dumps(graph_data, cls=GraphJSONEncoder, indent=2)
             else:
                 raise ValueError(f"Unsupported format: {format}")
         except Exception as e:

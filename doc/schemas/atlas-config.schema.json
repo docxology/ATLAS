@@ -1,0 +1,223 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://atlas-knowledge.org/schemas/config.json",
+  "title": "ATLAS Configuration Schema",
+  "description": "JSON schema for ATLAS system configuration files",
+  "type": "object",
+  "properties": {
+    "atlas": {
+      "type": "object",
+      "description": "Core ATLAS system configuration",
+      "properties": {
+        "auto_pattern_inference": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic pattern assignment based on entity characteristics"
+        },
+        "enable_dynamic_typing": {
+          "type": "boolean", 
+          "default": true,
+          "description": "Allow entities to change types during operation"
+        },
+        "max_expansion_depth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 10,
+          "description": "Maximum depth for graph traversal and expansion operations"
+        },
+        "enable_quality_metrics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Calculate and track quality scores for entities and patterns"
+        },
+        "log_level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+          "default": "INFO",
+          "description": "Logging level for system operations"
+        }
+      },
+      "additionalProperties": false
+    },
+    "database": {
+      "type": "object",
+      "description": "Database configuration settings",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "enum": ["memory", "sqlite", "postgresql", "neo4j"],
+          "default": "memory",
+          "description": "Database backend to use for persistence"
+        },
+        "path": {
+          "type": "string",
+          "description": "Database file path (for file-based databases)"
+        },
+        "host": {
+          "type": "string",
+          "description": "Database host (for network databases)"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "Database port (for network databases)"
+        },
+        "username": {
+          "type": "string",
+          "description": "Database username"
+        },
+        "password": {
+          "type": "string",
+          "description": "Database password"
+        },
+        "database_name": {
+          "type": "string",
+          "description": "Database name"
+        }
+      },
+      "additionalProperties": false
+    },
+    "visualization": {
+      "type": "object",
+      "description": "Visualization system configuration",
+      "properties": {
+        "default_backend": {
+          "type": "string",
+          "enum": ["matplotlib", "plotly", "graphviz"],
+          "default": "matplotlib",
+          "description": "Default visualization backend"
+        },
+        "figure_size": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 1
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "default": [12, 8],
+          "description": "Default figure size [width, height] in inches"
+        },
+        "dpi": {
+          "type": "integer",
+          "minimum": 72,
+          "maximum": 600,
+          "default": 100,
+          "description": "Resolution for saved figures"
+        },
+        "color_scheme": {
+          "type": "string",
+          "enum": ["default", "colorblind", "high_contrast", "dark", "light"],
+          "default": "default",
+          "description": "Color scheme for visualizations"
+        },
+        "animation": {
+          "type": "object",
+          "properties": {
+            "fps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60,
+              "default": 10,
+              "description": "Frames per second for animations"
+            },
+            "duration": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 60,
+              "default": 5.0,
+              "description": "Animation duration in seconds"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "performance": {
+      "type": "object",
+      "description": "Performance optimization settings",
+      "properties": {
+        "cache_size": {
+          "type": "integer",
+          "minimum": 100,
+          "default": 1000,
+          "description": "Maximum number of items to cache"
+        },
+        "batch_size": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 100,
+          "description": "Batch size for bulk operations"
+        },
+        "parallel_processing": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable parallel processing for suitable operations"
+        },
+        "max_workers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32,
+          "default": 4,
+          "description": "Maximum number of worker threads"
+        }
+      },
+      "additionalProperties": false
+    },
+    "export": {
+      "type": "object",
+      "description": "Data export settings",
+      "properties": {
+        "default_format": {
+          "type": "string",
+          "enum": ["json", "graphml", "yaml", "csv"],
+          "default": "json",
+          "description": "Default export format"
+        },
+        "compression": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable compression for exported files"
+        },
+        "include_metadata": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include metadata in exports"
+        }
+      },
+      "additionalProperties": false
+    },
+    "environment": {
+      "type": "object",
+      "description": "Environment-specific settings",
+      "properties": {
+        "data_dir": {
+          "type": "string",
+          "default": "./atlas_data",
+          "description": "Directory for data files"
+        },
+        "temp_dir": {
+          "type": "string", 
+          "default": "./atlas_temp",
+          "description": "Directory for temporary files"
+        },
+        "log_dir": {
+          "type": "string",
+          "default": "./atlas_logs",
+          "description": "Directory for log files"
+        },
+        "max_file_size": {
+          "type": "string",
+          "pattern": "^\\d+[KMGT]?B?$",
+          "default": "100MB",
+          "description": "Maximum file size (e.g., '100MB', '1GB')"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+} 
