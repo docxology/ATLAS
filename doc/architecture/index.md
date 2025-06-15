@@ -6,33 +6,50 @@ This document provides a comprehensive overview of the ATLAS system architecture
 
 ATLAS follows a modular, layered architecture designed for flexibility, scalability, and extensibility:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Application Layer                        │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
-│  │   Web UI    │ │  CLI Tools  │ │   REST API  │           │
-│  └─────────────┘ └─────────────┘ └─────────────┘           │
-├─────────────────────────────────────────────────────────────┤
-│                    ATLAS Engine                            │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
-│  │   Query     │ │  Pattern    │ │ Visualization│           │
-│  │  Processor  │ │   Engine    │ │   Engine     │           │
-│  └─────────────┘ └─────────────┘ └─────────────┘           │
-├─────────────────────────────────────────────────────────────┤
-│                  Core Components                           │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
-│  │  Entities   │ │  Patterns   │ │  iQueries   │           │
-│  └─────────────┘ └─────────────┘ └─────────────┘           │
-│  ┌─────────────┐ ┌─────────────┐                           │
-│  │ Attributes  │ │ Interfaces  │                           │
-│  └─────────────┘ └─────────────┘                           │
-├─────────────────────────────────────────────────────────────┤
-│                 Infrastructure Layer                       │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
-│  │ Graph Store │ │ Serializer  │ │  Utilities  │           │
-│  │ (NetworkX)  │ │             │ │             │           │
-│  └─────────────┘ └─────────────┘ └─────────────┘           │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "Application Layer"
+        WUI[Web UI]
+        CLI[CLI Tools]
+        API[REST API]
+    end
+    
+    subgraph "ATLAS Engine"
+        QP[Query Processor]
+        PE[Pattern Engine]
+        VE[Visualization Engine]
+    end
+    
+    subgraph "Core Components"
+        ENT[Entities]
+        PAT[Patterns]
+        IQ[iQueries]
+        ATTR[Attributes]
+        INT[Interfaces]
+    end
+    
+    subgraph "Infrastructure Layer"
+        GS[Graph Store<br/>NetworkX]
+        SER[Serializer]
+        UTIL[Utilities]
+    end
+    
+    WUI --> QP
+    CLI --> QP
+    API --> QP
+    
+    QP --> ENT
+    PE --> PAT
+    VE --> ENT
+    
+    ENT --> GS
+    PAT --> GS
+    IQ --> GS
+    ATTR --> GS
+    INT --> GS
+    
+    GS --> SER
+    GS --> UTIL
 ```
 
 ## Design Principles
@@ -73,21 +90,23 @@ ATLAS treats information flow like a manufacturing supply chain:
 
 ### Entity Management System
 
-```python
-┌─────────────────────────────────────────────────────┐
-│                Entity Manager                        │
-├─────────────────────────────────────────────────────┤
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │    Entity     │  │   Attribute   │               │
-│  │   Registry    │  │   Manager     │               │
-│  └───────────────┘  └───────────────┘               │
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │  Relationship │  │   Metadata    │               │
-│  │   Manager     │  │   Tracker     │               │
-│  └───────────────┘  └───────────────┘               │
-├─────────────────────────────────────────────────────┤
-│              NetworkX Graph Store                   │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "Entity Manager"
+        ER[Entity Registry]
+        AM[Attribute Manager]
+        RM[Relationship Manager]
+        MT[Metadata Tracker]
+    end
+    
+    subgraph "NetworkX Graph Store"
+        NGS[Graph Storage]
+    end
+    
+    ER --> NGS
+    AM --> NGS
+    RM --> NGS
+    MT --> NGS
 ```
 
 **Key Features:**
@@ -98,21 +117,23 @@ ATLAS treats information flow like a manufacturing supply chain:
 
 ### Pattern Engine
 
-```python
-┌─────────────────────────────────────────────────────┐
-│                Pattern Engine                       │
-├─────────────────────────────────────────────────────┤
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │   Pattern     │  │  Inheritance  │               │
-│  │   Registry    │  │   Manager     │               │
-│  └───────────────┘  └───────────────┘               │
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │   Similarity  │  │    QKit       │               │
-│  │   Calculator  │  │   Manager     │               │
-│  └───────────────┘  └───────────────┘               │
-├─────────────────────────────────────────────────────┤
-│              Pattern Analysis Tools                 │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "Pattern Engine"
+        PR[Pattern Registry]
+        IM[Inheritance Manager]
+        SC[Similarity Calculator]
+        QM[QKit Manager]
+    end
+    
+    subgraph "Pattern Analysis Tools"
+        PAT[Analysis Tools]
+    end
+    
+    PR --> PAT
+    IM --> PAT
+    SC --> PAT
+    QM --> PAT
 ```
 
 **Key Features:**
@@ -123,21 +144,23 @@ ATLAS treats information flow like a manufacturing supply chain:
 
 ### Query Processing System
 
-```python
-┌─────────────────────────────────────────────────────┐
-│               Query Processor                       │
-├─────────────────────────────────────────────────────┤
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │    Query      │  │   Execution   │               │
-│  │   Parser      │  │    Engine     │               │
-│  └───────────────┘  └───────────────┘               │
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │    Result     │  │    Quality    │               │
-│  │   Manager     │  │  Assessor     │               │
-│  └───────────────┘  └───────────────┘               │
-├─────────────────────────────────────────────────────┤
-│              Prompt Interface Layer                 │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "Query Processor"
+        QP[Query Parser]
+        EE[Execution Engine]
+        RM[Result Manager]
+        QA[Quality Assessor]
+    end
+    
+    subgraph "Prompt Interface Layer"
+        PIL[Interface Layer]
+    end
+    
+    QP --> EE
+    EE --> RM
+    RM --> QA
+    QA --> PIL
 ```
 
 **Key Features:**
@@ -150,57 +173,48 @@ ATLAS treats information flow like a manufacturing supply chain:
 
 ### Information Processing Pipeline
 
-```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│  External   │    │   Prompt    │    │    Query    │
-│   Sources   │───▶│ Interfaces  │───▶│  Processor  │
-└─────────────┘    └─────────────┘    └─────────────┘
-                                              │
-                                              ▼
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│ Visualization│◀───│   Entity    │◀───│   Pattern   │
-│   Engine    │    │  Manager    │    │   Engine    │
-└─────────────┘    └─────────────┘    └─────────────┘
-                           │
-                           ▼
-                   ┌─────────────┐
-                   │ Graph Store │
-                   │ (NetworkX)  │
-                   └─────────────┘
+```mermaid
+flowchart LR
+    ES[External Sources] --> PI[Prompt Interfaces]
+    PI --> QP[Query Processor]
+    QP --> PE[Pattern Engine]
+    PE --> EM[Entity Manager]
+    EM --> VE[Visualization Engine]
+    EM --> GS[Graph Store<br/>NetworkX]
 ```
 
 ### Query Execution Flow
 
-```
-1. Query Creation
-   ├── Parse query text
-   ├── Identify target patterns
-   ├── Set execution context
-   └── Register with system
-
-2. Execution Planning
-   ├── Find matching entities
-   ├── Select prompt interfaces
-   ├── Determine execution order
-   └── Allocate resources
-
-3. Information Gathering
-   ├── Execute prompt interfaces
-   ├── Collect responses
-   ├── Validate data quality
-   └── Handle errors/exceptions
-
-4. Result Processing
-   ├── Apply dynamic typing
-   ├── Update entity patterns
-   ├── Generate new questions
-   └── Calculate quality scores
-
-5. Knowledge Integration
-   ├── Update entity attributes
-   ├── Create new relationships
-   ├── Trigger pattern inheritance
-   └── Store results
+```mermaid
+flowchart TD
+    A[Query Creation] --> A1[Parse query text]
+    A1 --> A2[Identify target patterns]
+    A2 --> A3[Set execution context]
+    A3 --> A4[Register with system]
+    
+    A4 --> B[Execution Planning]
+    B --> B1[Find matching entities]
+    B1 --> B2[Select prompt interfaces]
+    B2 --> B3[Determine execution order]
+    B3 --> B4[Allocate resources]
+    
+    B4 --> C[Information Gathering]
+    C --> C1[Execute prompt interfaces]
+    C1 --> C2[Collect responses]
+    C2 --> C3[Validate data quality]
+    C3 --> C4[Handle errors/exceptions]
+    
+    C4 --> D[Result Processing]
+    D --> D1[Apply dynamic typing]
+    D1 --> D2[Update entity patterns]
+    D2 --> D3[Generate new questions]
+    D3 --> D4[Calculate quality scores]
+    
+    D4 --> E[Knowledge Integration]
+    E --> E1[Update entity attributes]
+    E1 --> E2[Create new relationships]
+    E2 --> E3[Trigger pattern inheritance]
+    E3 --> E4[Store results]
 ```
 
 ## Storage Architecture
@@ -209,20 +223,31 @@ ATLAS treats information flow like a manufacturing supply chain:
 
 ATLAS uses NetworkX directed graphs as the primary storage mechanism:
 
-```python
-Graph Structure:
-├── Nodes (Vertices)
-│   ├── Entities
-│   ├── Patterns  
-│   ├── iQueries
-│   ├── Attributes
-│   └── Prompt Interfaces
-└── Edges (Relationships)
-    ├── parent_of (Pattern inheritance)
-    ├── conforms_to (Entity-Pattern assignment)
-    ├── uses (Query-Interface associations)
-    ├── references (Cross-references)
-    └── Custom relationship types
+```mermaid
+graph TD
+    subgraph "Graph Structure"
+        subgraph "Nodes (Vertices)"
+            E[Entities]
+            P[Patterns]
+            IQ[iQueries]
+            A[Attributes]
+            PI[Prompt Interfaces]
+        end
+        
+        subgraph "Edges (Relationships)"
+            PO[parent_of - Pattern inheritance]
+            CT[conforms_to - Entity-Pattern assignment]
+            U[uses - Query-Interface associations]
+            R[references - Cross-references]
+            CR[Custom relationship types]
+        end
+    end
+    
+    E -.-> PO
+    P -.-> CT
+    IQ -.-> U
+    A -.-> R
+    PI -.-> CR
 ```
 
 **Benefits:**
@@ -233,19 +258,14 @@ Graph Structure:
 
 ### Serialization Strategy
 
-```python
-┌─────────────────────────────────────────────────────┐
-│                Serialization Layer                  │
-├─────────────────────────────────────────────────────┤
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │     JSON      │  │   GraphML     │               │
-│  │  Serializer   │  │  Exporter     │               │
-│  └───────────────┘  └───────────────┘               │
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │    Pickle     │  │    YAML       │               │
-│  │  Serializer   │  │  Serializer   │               │
-│  └───────────────┘  └───────────────┘               │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "Serialization Layer"
+        JSON[JSON Serializer]
+        GML[GraphML Exporter]
+        PKL[Pickle Serializer]
+        YAML[YAML Serializer]
+    end
 ```
 
 **Formats Supported:**
@@ -258,24 +278,32 @@ Graph Structure:
 
 ### Prompt Interface System
 
-```python
-┌─────────────────────────────────────────────────────┐
-│              Prompt Interface Layer                  │
-├─────────────────────────────────────────────────────┤
-│     ┌───────────────┐     ┌───────────────┐         │
-│     │   Abstract    │     │  Validation   │         │
-│     │    Base       │     │    Layer      │         │
-│     └───────────────┘     └───────────────┘         │
-├─────────────────────────────────────────────────────┤
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │
-│  │   Simple    │ │    HTTP     │ │   Database  │    │
-│  │ Transform   │ │  Interface  │ │  Interface  │    │
-│  └─────────────┘ └─────────────┘ └─────────────┘    │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │
-│  │    File     │ │     LLM     │ │   Custom    │    │
-│  │ Interface   │ │  Interface  │ │ Interface   │    │
-│  └─────────────┘ └─────────────┘ └─────────────┘    │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "Prompt Interface Layer"
+        AB[Abstract Base]
+        VL[Validation Layer]
+    end
+    
+    subgraph "Interface Implementations"
+        ST[Simple Transform]
+        HTTP[HTTP Interface]
+        DB[Database Interface]
+        FILE[File Interface]
+        LLM[LLM Interface]
+        CUSTOM[Custom Interface]
+    end
+    
+    AB --> ST
+    AB --> HTTP
+    AB --> DB
+    AB --> FILE
+    AB --> LLM
+    AB --> CUSTOM
+    
+    VL --> ST
+    VL --> HTTP
+    VL --> DB
 ```
 
 **Interface Types:**
@@ -289,51 +317,63 @@ Graph Structure:
 
 ### Multi-Layer Visualization System
 
-```python
-┌─────────────────────────────────────────────────────┐
-│              Visualization Engine                   │
-├─────────────────────────────────────────────────────┤
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │   Layout      │  │   Rendering   │               │
-│  │   Engines     │  │   Engines     │               │
-│  └───────────────┘  └───────────────┘               │
-├─────────────────────────────────────────────────────┤
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐    │
-│  │   Graph     │ │   Pattern   │ │   Metrics   │    │
-│  │ Visualizer  │ │ Visualizer  │ │ Visualizer  │    │
-│  └─────────────┘ └─────────────┘ └─────────────┘    │
-│  ┌─────────────┐ ┌─────────────┐                    │
-│  │   Network   │ │ Interactive │                    │
-│  │ Visualizer  │ │ Dashboard   │                    │
-│  └─────────────┘ └─────────────┘                    │
-├─────────────────────────────────────────────────────┤
-│         Backend Libraries                           │
-│    matplotlib | plotly | networkx | graphviz       │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "Visualization Engine"
+        LE[Layout Engines]
+        RE[Rendering Engines]
+    end
+    
+    subgraph "Visualizers"
+        GV[Graph Visualizer]
+        PV[Pattern Visualizer]
+        MV[Metrics Visualizer]
+        NV[Network Visualizer]
+        ID[Interactive Dashboard]
+    end
+    
+    subgraph "Backend Libraries"
+        MPL[matplotlib]
+        PLY[plotly]
+        NX[networkx]
+        GVZ[graphviz]
+    end
+    
+    LE --> GV
+    RE --> PV
+    LE --> MV
+    RE --> NV
+    LE --> ID
+    
+    GV --> MPL
+    PV --> PLY
+    MV --> NX
+    NV --> GVZ
 ```
 
 ## Scalability Considerations
 
 ### Horizontal Scaling
 
-```python
-┌─────────────────────────────────────────────────────┐
-│                Load Balancer                        │
-└─────────────────┬───────────────────────────────────┘
-                  │
-    ┌─────────────┼─────────────┐
-    │             │             │
-┌───▼───┐    ┌───▼───┐    ┌───▼───┐
-│ATLAS  │    │ATLAS  │    │ATLAS  │
-│Node 1 │    │Node 2 │    │Node 3 │
-└───┬───┘    └───┬───┘    └───┬───┘
-    │             │             │
-    └─────────────┼─────────────┘
-                  │
-          ┌───────▼───────┐
-          │  Shared Store │
-          │ (Redis/DB)    │
-          └───────────────┘
+```mermaid
+graph TD
+    LB[Load Balancer]
+    
+    subgraph "ATLAS Nodes"
+        N1[ATLAS Node 1]
+        N2[ATLAS Node 2]
+        N3[ATLAS Node 3]
+    end
+    
+    SS[Shared Store<br/>Redis/DB]
+    
+    LB --> N1
+    LB --> N2
+    LB --> N3
+    
+    N1 --> SS
+    N2 --> SS
+    N3 --> SS
 ```
 
 ### Vertical Scaling
@@ -347,19 +387,18 @@ Graph Structure:
 
 ### Access Control
 
-```python
-┌─────────────────────────────────────────────────────┐
-│                Security Layer                       │
-├─────────────────────────────────────────────────────┤
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │ Authentication│  │ Authorization │               │
-│  │    Module     │  │    Module     │               │
-│  └───────────────┘  └───────────────┘               │
-│  ┌───────────────┐  ┌───────────────┐               │
-│  │    Audit      │  │  Encryption   │               │
-│  │    Logger     │  │    Module     │               │
-│  └───────────────┘  └───────────────┘               │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "Security Layer"
+        AUTH[Authentication Module]
+        AUTHZ[Authorization Module]
+        AUDIT[Audit Logger]
+        ENCRYPT[Encryption Module]
+    end
+    
+    AUTH --> AUTHZ
+    AUTHZ --> AUDIT
+    AUDIT --> ENCRYPT
 ```
 
 **Security Features:**

@@ -2,9 +2,67 @@
 
 Complete reference documentation for all ATLAS classes, methods, and functions.
 
+## API Architecture Overview
+
+Understanding how ATLAS API components interact:
+
+```mermaid
+graph TD
+    subgraph "Client Applications"
+        APP[Your Application]
+        CLI[Command Line]
+        WEB[Web Interface]
+    end
+    
+    subgraph "ATLAS Core API"
+        ENGINE[ATLASEngine]
+        CONFIG[ATLASConfig]
+    end
+    
+    subgraph "Component APIs"
+        ENTITY[Entity API]
+        PATTERN[Pattern API]
+        QUERY[iQuery API]
+        ATTR[Attribute API]
+        INTERFACE[Interface API]
+    end
+    
+    subgraph "Utility APIs"
+        VIZ[Visualization API]
+        UTILS[Helper Functions]
+        METRICS[Metrics API]
+    end
+    
+    subgraph "Data Layer"
+        GRAPH[(NetworkX Graph)]
+        SERIAL[Serialization]
+        CACHE[Caching]
+    end
+    
+    APP --> ENGINE
+    CLI --> ENGINE
+    WEB --> ENGINE
+    
+    ENGINE --> CONFIG
+    ENGINE --> ENTITY
+    ENGINE --> PATTERN
+    ENGINE --> QUERY
+    ENGINE --> ATTR
+    ENGINE --> INTERFACE
+    
+    ENTITY --> VIZ
+    PATTERN --> VIZ
+    QUERY --> UTILS
+    
+    ENGINE --> GRAPH
+    VIZ --> GRAPH
+    UTILS --> SERIAL
+    METRICS --> CACHE
+```
+
 ## Core API
 
-### ATLASEngine
+### ATLASEngine {#atlasengine}
 The main orchestration class for the ATLAS system.
 
 ```python
@@ -23,7 +81,7 @@ atlas = ATLASEngine(config)
 - `get_metrics()` - Retrieve system statistics
 - `export_graph()` - Export knowledge graph
 
-### Entity
+### Entity {#entity}
 Fundamental objects within the ATLAS system.
 
 ```python
@@ -43,7 +101,7 @@ entity = Entity(
 - `mark_exception()` - Flag as exception to query
 - `call_rfis()` - Generate information requests
 
-### Pattern
+### Pattern {#pattern}
 Abstract templates that entities can instantiate.
 
 ```python
@@ -61,7 +119,7 @@ pattern = Pattern(
 - `add_parent()` - Define pattern inheritance
 - `calculate_effectiveness_score()` - Assess pattern utility
 
-### iQuery
+### iQuery {#iquery}
 Structured queries for information discovery.
 
 ```python
@@ -80,7 +138,7 @@ query = iQuery(
 - `add_result()` - Store query results
 - `calculate_quality_score()` - Assess result quality
 
-### Attribute
+### Attribute {#attribute}
 Specialized entities for metadata management.
 
 ```python
@@ -101,7 +159,7 @@ attr = Attribute(
 
 ## Interface API
 
-### PromptInterface
+### PromptInterface {#promptinterface}
 Base class for data transformation interfaces.
 
 ```python
@@ -176,7 +234,7 @@ merged = helpers.deep_merge(dict1, dict2)
 flattened = helpers.flatten_dict(nested_dict)
 ```
 
-## Visualization API
+## Visualization API {#visualization-api}
 
 ### GraphVisualizer
 Network and graph visualization tools.
@@ -220,7 +278,7 @@ analysis = net_viz.analyze_network_structure()
 
 ## Configuration API
 
-### ATLASConfig
+### ATLASConfig {#atlasconfig}
 System configuration dataclass.
 
 ```python

@@ -510,4 +510,43 @@ def create_business_queries(domain):
 
 ---
 
-*For technical details about iQuery classes and methods, see the [API Reference](../api/index.md#iquery).* 
+*For technical details about iQuery classes and methods, see the [API Reference](../api/index.md#iquery).*
+
+## iQuery Execution Flow
+
+Understanding how iQueries are processed and executed in ATLAS:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Engine as ATLAS Engine
+    participant Query as iQuery
+    participant Pattern as Pattern Engine
+    participant Interface as Prompt Interface
+    participant Entity as Entity Store
+    participant Viz as Visualization
+    
+    User->>Engine: Create iQuery
+    Engine->>Query: Initialize with context
+    Query->>Pattern: Find target patterns
+    Pattern-->>Query: Return matching patterns
+    
+    Query->>Interface: Execute via interfaces
+    Interface->>Interface: Transform data
+    Interface-->>Query: Return results
+    
+    Query->>Entity: Update/create entities
+    Entity-->>Query: Confirm updates
+    
+    Query->>Query: Assess result quality
+    Query->>Engine: Report completion
+    
+    Engine->>Viz: Generate visualizations
+    Viz-->>User: Display results
+    
+    Note over Query: Priority: HIGH/NORMAL/LOW
+    Note over Interface: Multiple interfaces can be used
+    Note over Entity: Automatic pattern assignment
+```
+
+## What Are iQueries? 

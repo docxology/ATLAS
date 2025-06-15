@@ -6,6 +6,29 @@ This guide explains the fundamental concepts and principles behind ATLAS, provid
 
 ATLAS is built on three fundamental principles that distinguish it from traditional knowledge management systems:
 
+```mermaid
+graph TD
+    subgraph "ATLAS Core Philosophy"
+        RFI[Requests for Information<br/>Contain Information]
+        MI[Missing Information<br/>is Information]
+        DI[Disagreement<br/>is Information]
+    end
+    
+    subgraph "Traditional Systems"
+        TS[Schema-Driven<br/>Fixed Structure<br/>Ignore Gaps]
+    end
+    
+    subgraph "ATLAS Approach"
+        QO[Question-Oriented<br/>Dynamic Patterns<br/>Embrace Uncertainty]
+    end
+    
+    RFI --> QO
+    MI --> QO
+    DI --> QO
+    
+    TS -.-> |Transform| QO
+```
+
 ### 1. A Request for Information Contains Information
 
 When you ask a question, the question itself reveals information about:
@@ -46,7 +69,34 @@ When different sources provide conflicting information, this disagreement is its
 
 ## Core Components
 
-ATLAS consists of five main components that work together to create a dynamic knowledge management system:
+ATLAS consists of five interconnected components that work together to create a dynamic knowledge management system:
+
+```mermaid
+graph TD
+    subgraph "ATLAS Core Components"
+        E[Entities<br/>Knowledge Units]
+        P[Patterns<br/>Abstract Templates]
+        Q[iQueries<br/>Information Requests]
+        A[Attributes<br/>Typed Properties]
+        I[Interfaces<br/>System Integration]
+    end
+    
+    subgraph "Relationships"
+        E --> |conforms to| P
+        P --> |contains| Q
+        E --> |has| A
+        Q --> |uses| I
+        P --> |inherits from| P
+    end
+    
+    subgraph "Dynamic Behavior"
+        DB[Pattern Assignment<br/>Question Generation<br/>Quality Assessment]
+    end
+    
+    E --> DB
+    P --> DB
+    Q --> DB
+```
 
 ### Entities
 
@@ -347,7 +397,7 @@ Now that you understand the core concepts, you're ready to:
 1. **[Try the Quick Start Tutorial](quickstart.md)** - Build your first ATLAS system
 2. **[Explore the User Guide](../user-guide/index.md)** - Learn detailed operations
 3. **[Study the Architecture](../architecture/index.md)** - Understand system design
-4. **[Review Examples](../examples/index.md)** - See ATLAS in action
+4. **[Review Examples](../../examples/README.md)** - See ATLAS in action
 
 ---
 

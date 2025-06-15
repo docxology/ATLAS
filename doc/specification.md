@@ -35,16 +35,40 @@ This specification covers the core ATLAS system components, their interactions, 
 
 ATLAS follows a modular, layered architecture built around five core components:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    ATLAS Engine                            │
-├─────────────────────────────────────────────────────────────┤
-│  Entities  │  Patterns  │  iQueries  │ Attributes │ Prompts │
-├─────────────────────────────────────────────────────────────┤
-│                   Core Infrastructure                       │
-├─────────────────────────────────────────────────────────────┤
-│         NetworkX Graph │ Utilities │ Serialization         │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph "ATLAS Engine"
+        AE[ATLAS Engine - Central Orchestration]
+    end
+    
+    subgraph "Core Components"
+        E[Entities]
+        P[Patterns] 
+        IQ[iQueries]
+        A[Attributes]
+        PI[Prompt Interfaces]
+    end
+    
+    subgraph "Core Infrastructure"
+        NG[NetworkX Graph]
+        U[Utilities]
+        S[Serialization]
+    end
+    
+    AE --> E
+    AE --> P
+    AE --> IQ
+    AE --> A
+    AE --> PI
+    
+    E --> NG
+    P --> NG
+    IQ --> NG
+    A --> NG
+    PI --> NG
+    
+    NG --> U
+    NG --> S
 ```
 
 ### Layer Descriptions

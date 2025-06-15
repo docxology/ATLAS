@@ -2,6 +2,29 @@
 
 This tutorial will guide you through creating your first ATLAS knowledge management system in just a few minutes.
 
+## Quick Start Progress
+
+Your journey through this 5-minute tutorial:
+
+```mermaid
+journey
+    title ATLAS Quick Start Journey
+    section Setup
+      Install ATLAS: 5: User
+      Import libraries: 4: User
+    section Basic Usage
+      Create Engine: 5: User
+      Add Entity: 5: User
+      Create Pattern: 4: User
+    section Advanced Features
+      Execute Query: 3: User
+      Add Interface: 3: User
+      Generate Visualization: 5: User
+    section Results
+      View Knowledge Graph: 5: User
+      Understand System: 5: User
+```
+
 ## Prerequisites
 
 Before starting, ensure you have:
@@ -355,7 +378,7 @@ A: Consider reducing `max_expansion_depth` in your config or disable `enable_qua
 ### Getting Help
 
 - Check the [FAQ](../reference/faq.md) for common questions
-- Browse [examples](../examples/index.md) for more use cases  
+- Browse [examples](../../examples/README.md) for more use cases  
 - Visit [community support](../community/support.md) for help
 
 ---

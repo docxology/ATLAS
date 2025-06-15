@@ -2,6 +2,59 @@
 
 Welcome to the comprehensive documentation for ATLAS (Adaptive Thinking and Learning Architecture System) - a dynamic knowledge management framework that addresses the complexities of modern information supply chains.
 
+## Documentation Navigation Map
+
+Understanding how all documentation components connect:
+
+```mermaid
+graph TD
+    subgraph "Getting Started"
+        INSTALL[Installation Guide]
+        QUICK[Quick Start Tutorial]
+        CONCEPTS[Basic Concepts]
+    end
+    
+    subgraph "Core Documentation"
+        USER[User Guide]
+        API[API Reference]
+        ARCH[Architecture]
+        SPEC[Technical Specification]
+    end
+    
+    subgraph "Practical Resources"
+        EXAMPLES[Examples]
+        CONTRIB[Contributing]
+        FAQ[FAQ & Support]
+    end
+    
+    subgraph "Reference Materials"
+        SCHEMAS[Machine-Readable Specs]
+        TEMPLATES[Configuration Templates]
+        GLOSSARY[Glossary]
+    end
+    
+    START([New User]) --> INSTALL
+    INSTALL --> QUICK
+    QUICK --> CONCEPTS
+    CONCEPTS --> USER
+    
+    USER --> API
+    USER --> EXAMPLES
+    API --> ARCH
+    ARCH --> SPEC
+    
+    EXAMPLES --> CONTRIB
+    FAQ --> CONTRIB
+    
+    SCHEMAS --> TEMPLATES
+    TEMPLATES --> GLOSSARY
+    
+    style START fill:#e1f5fe
+    style USER fill:#e8f5e8
+    style API fill:#fff3e0
+    style EXAMPLES fill:#f3e5f5
+```
+
 ## Quick Start
 
 - [Installation Guide](INSTALL.md) - Get ATLAS up and running

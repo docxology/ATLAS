@@ -62,7 +62,7 @@ Development dependencies:
 - `flake8>=3.8.0,<7.0`
 - `mypy>=0.812,<2.0`
 
-## Troubleshooting
+## Troubleshooting {#troubleshooting}
 
 - **Import errors**: Ensure `pip install -e .` was run from the project root
 - **Missing dependencies**: Use `pip install atlas-knowledge[all]` for all features

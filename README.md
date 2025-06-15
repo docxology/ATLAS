@@ -2,6 +2,8 @@
 
 A comprehensive knowledge management framework with modular composability, dynamic pattern recognition, and question-oriented information discovery.
 
+> **📖 For a complete system overview, see [ATLAS_overview.md](ATLAS_overview.md) - the comprehensive guide to all ATLAS features and technology.**
+
 ## Quick Start
 
 Run the main script to install, test, and explore the system:

@@ -2,6 +2,43 @@
 
 Patterns are one of the core components of ATLAS, serving as abstract templates that define the structure and expectations for different types of entities. This guide covers everything you need to know about creating, managing, and using patterns effectively.
 
+## Pattern Inheritance Visualization
+
+Understanding how pattern inheritance works in ATLAS:
+
+```mermaid
+graph TD
+    subgraph "Pattern Hierarchy Example"
+        DOC[Document Pattern<br/>QKit: title, author, date]
+        ACADEMIC[Academic Document<br/>QKit: institution, discipline]
+        RESEARCH[Research Paper<br/>QKit: methodology, findings]
+        JOURNAL[Journal Article<br/>QKit: journal, impact_factor, doi]
+        THESIS[Thesis<br/>QKit: advisor, degree_level]
+    end
+    
+    subgraph "Inheritance Flow"
+        DOC --> ACADEMIC
+        ACADEMIC --> RESEARCH
+        ACADEMIC --> THESIS
+        RESEARCH --> JOURNAL
+    end
+    
+    subgraph "QKit Inheritance"
+        JOURNAL_QKIT[Combined QKit:<br/>• title, author, date<br/>• institution, discipline<br/>• methodology, findings<br/>• journal, impact_factor, doi]
+        
+        THESIS_QKIT[Combined QKit:<br/>• title, author, date<br/>• institution, discipline<br/>• advisor, degree_level]
+    end
+    
+    JOURNAL --> JOURNAL_QKIT
+    THESIS --> THESIS_QKIT
+    
+    style DOC fill:#e3f2fd
+    style ACADEMIC fill:#f3e5f5
+    style RESEARCH fill:#e8f5e8
+    style JOURNAL fill:#fff3e0
+    style THESIS fill:#fce4ec
+```
+
 ## What Are Patterns?
 
 Patterns in ATLAS are templates that:
@@ -10,7 +47,7 @@ Patterns in ATLAS are templates that:
 - Enable dynamic typing of entities based on their characteristics
 - Provide structure for systematic knowledge management
 
-## Creating Patterns
+## Creating Patterns {#creating-patterns}
 
 ### Basic Pattern Creation
 
@@ -356,4 +393,4 @@ print(f"Descendants: {hierarchy['descendants']}")
 
 ---
 
-*For technical details about Pattern and PatternEngine classes, see the [API Reference](../api/index.md#pattern).* 
+*For technical details about Pattern and PatternEngine classes, see the [API Reference](../api/index.md#pattern).*

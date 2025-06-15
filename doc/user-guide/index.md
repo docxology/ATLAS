@@ -2,6 +2,42 @@
 
 Welcome to the comprehensive ATLAS User Guide. This guide provides detailed instructions for using all aspects of the ATLAS knowledge management system.
 
+## ATLAS Workflow Overview
+
+Understanding how all components work together in a typical ATLAS workflow:
+
+```mermaid
+flowchart TD
+    Start([Start: New Information]) --> Create{Create Entity?}
+    
+    Create -->|Yes| E1[Create Entity<br/>with Attributes]
+    Create -->|No| Query{Need Information?}
+    
+    E1 --> Pattern[Assign Patterns<br/>Based on Attributes]
+    Pattern --> Inherit[Inherit Parent<br/>Pattern Properties]
+    Inherit --> QKit[Generate QKit<br/>Questions]
+    
+    Query -->|Yes| IQ[Create iQuery<br/>with Context]
+    QKit --> IQ
+    
+    IQ --> Execute[Execute Query<br/>via Interfaces]
+    Execute --> Results[Collect Results<br/>and Assess Quality]
+    
+    Results --> Update{Update Entities?}
+    Update -->|Yes| E1
+    Update -->|No| Visualize[Generate<br/>Visualizations]
+    
+    Visualize --> Analyze[Analyze Patterns<br/>and Relationships]
+    Analyze --> Insights[Extract Insights<br/>and Anomalies]
+    Insights --> End([Knowledge Enhanced])
+    
+    style Start fill:#e1f5fe
+    style End fill:#e8f5e8
+    style E1 fill:#fff3e0
+    style Pattern fill:#f3e5f5
+    style IQ fill:#e0f2f1
+```
+
 ## Getting Started
 
 If you're new to ATLAS, start here:

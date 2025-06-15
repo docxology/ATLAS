@@ -2,6 +2,48 @@
 
 Entities are the fundamental building blocks of any ATLAS knowledge management system. This guide covers everything you need to know about creating, managing, and working with entities effectively.
 
+## Entity Lifecycle
+
+Understanding how entities evolve through their lifecycle in ATLAS:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Created: Create Entity
+    Created --> Attributed: Add Attributes
+    Attributed --> Patterned: Assign Patterns
+    Patterned --> Linked: Create Relationships
+    Linked --> Queried: Execute iQueries
+    Queried --> Analyzed: Pattern Analysis
+    Analyzed --> Visualized: Generate Visualizations
+    
+    Attributed --> Attributed: Update Attributes
+    Patterned --> Patterned: Add/Remove Patterns
+    Linked --> Linked: Modify Relationships
+    Queried --> Queried: Additional Queries
+    
+    Analyzed --> Anomaly: Detect Issues
+    Anomaly --> Attributed: Fix Attributes
+    Anomaly --> Exception: Mark Exception
+    
+    Visualized --> [*]: Archive/Export
+    Exception --> [*]: Remove Entity
+    
+    note right of Created
+        Entity with unique ID
+        and basic metadata
+    end note
+    
+    note right of Patterned
+        Inherits parent pattern
+        properties automatically
+    end note
+    
+    note right of Anomaly
+        Quality control and
+        validation checks
+    end note
+```
+
 ## Understanding Entities
 
 An entity in ATLAS represents any identifiable object, concept, or phenomenon that you want to track and relate to other information. Entities are flexible containers that can represent:
@@ -20,7 +62,7 @@ Every entity consists of:
 3. **Patterns**: List of pattern IDs that define the entity's type and expected behavior
 4. **Metadata**: System-managed information about creation, updates, and provenance
 
-## Creating Entities
+## Creating Entities {#entity-creation}
 
 ### Basic Entity Creation
 
